@@ -5,6 +5,7 @@ import UserProfile from './components/Profile/UserProfile';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
 
+
 function App() {
   return (
     <Layout>
@@ -12,9 +13,9 @@ function App() {
         <Route path='/' exact>
           <HomePage />
         </Route>
-        <Route path='/auth'>
+        {<Route path='/auth'>
           <AuthPage />
-        </Route>
+        </Route>}
         <Route path='/profile'>
           <UserProfile />
         </Route>

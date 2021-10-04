@@ -1,56 +1,44 @@
 
-
- const apiKey ='AIzaSyBrEdevpKRpF13aBB3W8B6ygzm4hA6LLeA';
- const signRequestBody = (email, password) => {
-     return ({
+const apiKey = 'AIzaSyBrEdevpKRpF13aBB3W8B6ygzm4hA6LLeA';
+const signRequestBody = (email, password) => {
+  return ({
     method: 'POST',
     body: JSON.stringify({
-        email: email,
-        password: password,
-        returnSecureToken: true
+      email: email,
+      password: password,
+      returnSecureToken: true
     }),
     headers: {
       'Content-Type': 'application/json'
     }
- })}
+  })
+}
 
 
 export const authApi = {
 
-    signUP(email, password) {
-       fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`, signRequestBody(email, password))
-       .then( res => {
-           if(res.ok) {
-             return  alert('ok')
-           } else {
-            return res.json().then( data => {
-                let errorMessage = `Attempt's failed!`
-                if(data && data.error && data.error.message) {
-                    if (data.error.message === 'EMAIL_EXISTS') {
-                    errorMessage = 'Email already exists'
-            }}
-            alert(errorMessage);
-               });
-           }
-       })
-    },
+  signUP(email, password) {
+    return fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`, signRequestBody(email, password))
 
-    signIN(email, password) {
-        fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`, signRequestBody(email, password))
-        .then( res => {
-            if(res.ok) {
-              return  alert('ok')
-            } else {
-              return res.json().then( data => {
-                  let errorMessage = 'Unsuccessful!'
-                  if(data && data.error && data.error.message) {
-                    if (data.error.message === 'EMAIL_EXISTS' || 'INVALID_PASSWORD') {
-                        errorMessage = 'Email or password is incorrect'
-              }}
-              alert(errorMessage);
-            });
-            }
-        });
-     }
+  },
+
+  signIn(email, password) {
+    return fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`, signRequestBody(email, password))
+  },
+  newPassword(token, newPassword) {
+    return fetch(`https://identitytoolkit.googleapis.com/v1/accounts:update?key=${apiKey}`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        idToken: token,
+        password: newPassword,
+        returnSecureToken: false
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+
 }
 
