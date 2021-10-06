@@ -47,7 +47,8 @@ const AuthForm = () => {
           }
         })
         .then((data) => {
-          authCtx.isLogin(data.idToken);
+          const expirationTime = new Date(new Date().getTime() + (+data.expiresIn * 1000 ))
+          authCtx.isLogin(data.idToken, expirationTime.toISOString());
           history.replace('/profile')
         })
         .catch((err) => {
@@ -73,6 +74,7 @@ const AuthForm = () => {
           }
         })
         .then((data) => {
+
           authCtx.isLogin(data.idToken);
           history.replace('/profile')
         })
